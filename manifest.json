@@ -1,0 +1,27 @@
+{
+  "name": "Liker",
+  "version": "1",
+  "author": "Vadagon",
+  "manifest_version": 2,
+  "description": "Automate your social media",
+  "permissions": [
+    "tabCapture",
+    "activeTab",
+    "tabs",
+    "storage",
+    "<all_urls>"
+  ],
+  "browser_action": {
+    "default_title": "Click to open popup",
+    "default_icon": "img/icon.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "page": "background.html"
+  },
+  "content_scripts": [{
+      "matches": ["*://*.twitter.com/*"],
+      "js": ["bower_components/jquery/dist/jquery.min.js", "scripts/content.js"]
+  }],
+  "options_page": "options.html"
+}

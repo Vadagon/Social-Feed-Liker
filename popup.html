@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap.min/index.css">
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="scripts/popup.js"></script>
+    <style type="text/css">
+    body {
+        width: 300px;
+        padding: 15px 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container" ng-app="app" ng-controller="app">
+        <h2>{{ title }}</h2>
+        <div class="form-group">
+            <label for="interval">Interval (seconds)</label>
+            <input type="number" class="form-control" ng-model="params.interval" id="interval">
+        </div>
+        <div class="form-group">
+            <label for="pause">Pause after (likes)</label>
+            <input type="number" class="form-control" ng-model="params.pause" id="pause">
+        </div>
+        <div class="form-group">
+            <label for="resume">Resume (seconds)</label>
+            <input type="number" class="form-control" ng-model="params.resume" id="resume">
+        </div>
+        <!-- <div class="checkbox">
+            <label>
+                <input type="checkbox"> Remember me</label>
+        </div> -->
+        <div>Estimated {{params.estimated}} likes</div>
+        <button type="submit" class="btn btn-primary" ng-click="start()">START</button>
+    </div>
+</body>
+</html>
