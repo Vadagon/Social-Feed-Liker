@@ -17,10 +17,10 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "page": "background.html"
+      "scripts": ["scripts/background.js"]
   },
   "content_scripts": [{
-      "matches": ["*://*.twitter.com/*"],
+      "matches": ["*://*.twitter.com/*", "*://*.facebook.com/*", "*://*.linkedin.com/*", "*://*.instagram.com/*"],
       "js": ["bower_components/jquery/dist/jquery.min.js", "scripts/content.js"]
   }],
   "options_page": "options.html"
