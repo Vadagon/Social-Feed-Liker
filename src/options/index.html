@@ -1,0 +1,56 @@
+<html lang="en">
+
+<head>
+    <title>Follower Potato</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="chrome-extension"/>
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+
+<body ng-app="App" ng-cloak ng-controller="AppCtrl" layout="column">
+<div layout="row" flex>
+
+
+
+  <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
+      <md-toolbar class="md-theme-indigo">
+          <h1 class="md-toolbar-tools">Menu</h1>
+      </md-toolbar>
+      <md-content layout-padding>
+          <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
+              Close Menu
+          </md-button>
+          <md-list flex>
+              <md-list-item ng-click="provide('dwqdwqqwq')" ng-style="($route.current.originalPath=='/'+x) && {'background-color': '#d8d8d8'}">
+                  Home
+              </md-list-item>
+              <md-list-item ng-click="provide(x)" ng-repeat="x in features" ng-style="($route.current.originalPath=='/'+x) && {'background-color': '#d8d8d8'}">
+                  {{x}}
+              </md-list-item>
+          </md-list>
+      </md-content>
+  </md-sidenav>
+
+
+
+  <md-content flex layout-padding>
+      <md-button ng-click="toggleLeft()" class="md-accent" hide-gt-md flex>
+          Open Menu
+      </md-button>
+      <h1>{{$route.current.originalPath}}</h1>
+      <div layout="column" ng-view></div>
+  </md-content>
+
+<md-button class="md-fab md-primary" style="position: fixed; bottom: 25px; right: 25px;" ng-click="save()">
+  <i class="material-icons">save</i>
+</md-button>
+
+</div>
+<script src="/js/plugins.js"></script>
+<script src="/js/options.js"></script>
+</body>
+
+</html>

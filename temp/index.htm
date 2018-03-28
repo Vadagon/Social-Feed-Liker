@@ -1,0 +1,11 @@
+<div layout="row" flex>	
+	<fieldset class="standard" flex="initial" ng-style="s.settings.pool && {'border-color': '#3f51b5'}">
+	      <legend>Pool Jobs</legend>
+	      <div layout="column">
+	      		<h1 flex>Profiles Collected: {{s.pool.pooled.length}}</h1>
+				<md-switch class="md-primary" ng-model="s.settings.pool">
+					Enable Pool Jobs
+				</md-switch>
+	      </div>
+	</fieldset>
+</div>

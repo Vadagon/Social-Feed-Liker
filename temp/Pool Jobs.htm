@@ -1,0 +1,66 @@
+<div layout="column" flex>	
+	<h1 flex>Profiles Collected: {{s.pool.pooled.length}}</h1>
+
+	<div layout="row" flex>	
+		
+		<md-tabs md-dynamic-height md-border-bottom flex>
+	      <md-tab label="Followers">
+	        <md-content class="md-padding">
+	        	<md-list-item ng-repeat="x in s.pool.units.user" class="noright">
+				    <img alt="{{ x.profile_pic_url }}" ng-src="{{ x.profile_pic_url }}" class="md-avatar" />
+				    <p>{{ x.full_name }}</p>
+				    <md-icon ng-click="removeFromUnits('followers', $index)" class="md-secondary md-hue-3">
+				    	<i class="material-icons">delete_forever</i>
+				    </md-icon>
+				</md-list-item>
+	        </md-content>
+	      </md-tab>
+	      <md-tab label="Comments & Likes">
+	        <md-content class="md-padding">
+	        	<md-list-item ng-repeat="x in s.pool.units.shortcode_media" class="noright">
+				    <img alt="{{ x.display_url }}" ng-src="{{ x.display_url }}" class="md-avatar" />
+				    <p>{{ x.edge_media_to_caption.edges[0].node.text }}</p>
+				    <md-icon ng-click="removeFromUnits('followers', $index)" class="md-secondary md-hue-3">
+				    	<i class="material-icons">delete_forever</i>
+				    </md-icon>
+				</md-list-item>
+	        </md-content>
+	      </md-tab>
+	      <md-tab label="hashtags">
+	        <md-content class="md-padding">
+	        	<md-list-item ng-repeat="x in s.pool.units.hashtag" class="noright">
+				    <img alt="{{ x.profile_pic_url }}" ng-src="{{ x.profile_pic_url }}" class="md-avatar" />
+				    <p>{{ x.name }}</p>
+				    <md-icon ng-click="removeFromUnits('followers', $index)" class="md-secondary md-hue-3">
+				    	<i class="material-icons">delete_forever</i>
+				    </md-icon>
+				</md-list-item>
+	        </md-content>
+	      </md-tab>
+	      <md-tab label="locations">
+	        <md-content class="md-padding">
+	        	<md-list-item ng-repeat="x in s.pool.units.location" class="noright">
+				    <img alt="{{ x.edge_location_to_top_posts.edges[0].node.display_url }}" ng-src="{{ x.edge_location_to_top_posts.edges[0].node.display_url }}" class="md-avatar" />
+				    <p>{{ x.name }}</p>
+				    <md-icon ng-click="removeFromUnits('followers', $index)" class="md-secondary md-hue-3">
+				    	<i class="material-icons">delete_forever</i>
+				    </md-icon>
+				</md-list-item>
+	        </md-content>
+	      </md-tab>
+	      <md-tab label="Pool">
+	        <md-content class="md-padding">
+	        	<md-list-item ng-repeat="x in s.pool.pooled" class="noright">
+				    <img alt="{{ x.profile_pic_url }}" ng-src="{{ x.profile_pic_url }}" class="md-avatar" />
+				    <p>{{ x.full_name }}</p>
+				    <md-icon ng-click="removeFromUnits('followers', $index)" class="md-secondary md-hue-3">
+				    	<i class="material-icons">delete_forever</i>
+				    </md-icon>
+				</md-list-item>
+	        </md-content>
+	      </md-tab>
+	    </md-tabs>
+	    <div flex="40" hide show-gt-md></div>
+	</div>
+
+</div>

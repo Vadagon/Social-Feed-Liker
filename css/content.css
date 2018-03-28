@@ -1,0 +1,21 @@
+#followerPotato{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	padding: 0px;
+	padding: 2px;
+	z-index: 2;
+}
+#followerPotato button{
+	background-color: #00a259;
+	border: none;
+	cursor: pointer;
+	color: white;
+	border-radius: 5px;
+	padding: 10px;
+	margin-top: 2px;
+}
+#followerPotato .red{
+	cursor: not-allowed;
+	background-color: red;
+}
