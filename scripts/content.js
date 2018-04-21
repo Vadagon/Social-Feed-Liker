@@ -1,4 +1,4 @@
-var timer, button, likes = 0;
+var timer, button, likes = 0, IGOffsets = [], activated = !1;
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     for (var i in request.buttons) {
         if (window.location.hostname.indexOf(i) > -1) {
@@ -6,24 +6,26 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             break;
         }
     }
-    console.log(button)
+    // console.log(button)
     if (request.params.task == 'count') {
         if (window.location.hostname.indexOf('instagram') != -1) {
             sendResponse({ count: likes });
-            chrome.runtime.sendMessage({count: likes})
+            if(!activated)
+                chrome.runtime.sendMessage({count: likes})
         } else {
             sendResponse({ count: $(button).length });
-            chrome.runtime.sendMessage({count: $(button).length})
+            if(!activated){
+                chrome.runtime.sendMessage({count: $(button).length})
+            }
         }
-    }else{
-    	chrome.runtime.sendMessage({count: ''})
     }
+
     if (request.params.task == 'start') {
         $('html, body').scrollTop(0)
         var cont = 0;
+        activated = !0;
         var pase = 0;
         (function foo() {
-        	chrome.runtime.sendMessage({count: request.params.estimated - cont})
             clearTimeout(timer)
             timer = setTimeout(function() {
                 cont++
@@ -47,44 +49,42 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
                     // Facebook only
-                    if (simulateMouseover($(button + ':not([alreadyClickedByExtension=true])').eq(0).attr("alreadyClickedByExtension", 'true')[0])) {
-                        setTimeout(function() {
-                            var latestTop = 0;
-                            var latestEl;
-                            $('._1oxj.uiLayer').each(function() {
-                                if (latestTop < $(this).position().top)
-                                    latestEl = $(this)
-                            })
-                            if (latestEl) {
-                                latestEl.find('[aria-label=Love]').click()
-                            }
-                        }, (request.params.interval / 3) * 1000);
-                    }
+                    simulateMouseover($(button).eq(0).attr("alreadyClickedByExtension", 'true')[0])
 
-                    if (cont == 1) {
-                        var interval = setInterval(function() {
-                            if ($('._1oxj.uiLayer').length) {
-                                goNext()
-                            	clearInterval(interval)
-                            }
-                        }, 10);
-                    } else {
-                        goNext()
-                    }
+                    var interval = setInterval(function() {
+                        if ($('._1oxj.uiLayer [aria-label=Love]:not([alreadyClickedByExtension=true]').length) {
+                            $('._1oxj.uiLayer [aria-label=Love]:not([alreadyClickedByExtension=true]').attr("alreadyClickedByExtension", 'true').click()
+                            console.log('clicking')
+                            chrome.runtime.sendMessage({count: request.params.estimated - cont})
+                            goNext()
+                            setTimeout(function() {
+                        	   clearInterval(interval)
+                            }, request.params.interval / 3);
+                        }
+                    }, 80);
 
 
                 } else if (window.location.hostname.indexOf('instagram') != -1) {
 
 
                 	// Instagram only
-                    var scrollNow = $('html, body').scrollTop()
-                    $(button).each(function() {
-                        if ($(this).offset().top > scrollNow + 50) {
-                            $('html, body').scrollTop($(this).offset().top + 200)
-                            $(this).click()
-                            return false
+                    $('html, body').scrollTop(IGOffsets[IGOffsets.length-likes] - 200)
+                    setTimeout(function() {
+                        var toClick = $(button).eq(0);
+                        $(button).each(function(){
+                            if($(this).offset().top >= IGOffsets[IGOffsets.length-likes] - 100 && $(this).offset().top <= IGOffsets[IGOffsets.length-likes] + 100){
+                                toClick = $(this)
+                                return false;
+                            }
+                        })
+                        if(toClick.length){
+                            $('html, body').scrollTop(toClick.offset().top - 200)
+                            toClick.click()
                         }
-                    })
+                        chrome.runtime.sendMessage({count: request.params.estimated - cont})
+                        likes--;
+                    }, (request.params.interval / 3) * 1000);
+ 
 
 
                     goNext()
@@ -96,6 +96,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
                     // All else
                     $(button + ':not([alreadyClickedByExtension=true])').eq(0).attr("alreadyClickedByExtension", 'true').click()
+                    chrome.runtime.sendMessage({count: request.params.estimated - cont})
                     goNext()
 
                 }
@@ -104,12 +105,23 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 })
 if (window.location.hostname.indexOf('instagram') != -1) {
-    var maxHeight = 0;
     setInterval(function() {
-        if ($('main > section > div > div > div > article').offset().top > maxHeight) {
-            maxHeight = ($('main > section > div > div > div > article').offset().top)
-            likes++
-        }
+        $('main > section > div > div > div > article').each(function(){
+// if($(this).offset().top >= IGOffsets[IGOffsets.length-likes] - 100 && $(this).offset().top <= IGOffsets[IGOffsets.length-likes] + 100){
+            var valid = !0;
+            for (var i = IGOffsets.length - 1; i >= 0; i--) {
+                if($(this).offset().top >= IGOffsets[i] - 100 && $(this).offset().top <= IGOffsets[i] + 100){
+                    valid = !1;
+                    break;
+                }
+            }
+            if(valid && $(this).find('.coreSpriteHeartOpen').length){
+                IGOffsets.push($(this).offset().top)
+                console.log(IGOffsets)
+                likes++
+            }
+            
+        });
     }, 1);
 }
 
