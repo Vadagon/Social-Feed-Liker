@@ -1,12 +1,11 @@
 {
-  "name": "Liker",
-  "version": "1",
+  "name": "Social Feed Liker",
+  "version": "0.5",
   "author": "Vadagon",
+  "short_name": "Media Bot",
   "manifest_version": 2,
-  "description": "Automate your social media",
+  "description": "Easy Social Media Automation",
   "permissions": [
-    "tabCapture",
-    "activeTab",
     "tabs",
     "storage",
     "<all_urls>"
@@ -16,12 +15,13 @@
     "default_icon": "img/icon.png",
     "default_popup": "popup.html"
   },
+  "web_accessible_resources": [
+    "bower_components/*",
+    "assets/*",
+    "img/*"
+  ],
   "background": {
       "scripts": ["scripts/background.js"]
   },
-  "content_scripts": [{
-      "matches": ["*://*.twitter.com/*", "*://*.facebook.com/*", "*://*.linkedin.com/*", "*://*.instagram.com/*"],
-      "js": ["bower_components/jquery/dist/jquery.min.js", "scripts/content.js"]
-  }],
   "options_page": "options.html"
 }
