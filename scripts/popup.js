@@ -5,48 +5,45 @@ var buttons = {
     instagram: '.coreSpriteHeartOpen'
 }
 
-var app = angular.module('app', []);
+var app = angular.module('app', ["ngRoute"]);
 app.controller('app', function($scope) {
+    $scope.settings = {}
+    $scope.nav = 'facebook';
     $scope.disabled = !0;
-    $scope.title = 'Liker'
-    $scope.params = {
-        task: 'start',
-        interval: 4,
-        pause: 50,
-        resume: 60,
-        estimated: '...'
-    }
 
-    chrome.storage.sync.get("paramses", function (obj) {
-        console.log(obj.paramses)
-        if(obj.paramses){
-            $scope.params = obj.paramses
+    chrome.storage.sync.get("settings", function (obj) {
+        console.log(obj.settings)
+        if(obj.settings){
+            $scope.settings = obj.settings
             $scope.$apply()
         }
     });
 
+    $scope.save = function(){
+        chrome.storage.sync.set({"settings": $scope.settings})
+        chrome.runtime.sendMessage({ act: 'run', data: $scope.settings });
+    }
+    $scope.run = function(e){
+        chrome.runtime.sendMessage({ act: 'run-'+e });
+    }
 
-	chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { params: {task: "count"}, buttons: buttons }, function(response) {
-            if(response.count){
-                console.log(response.count)
-                $scope.params.estimated = response.count;
-                $scope.disabled = !1;
-                $scope.$apply()
-                $scope.start = function() {
-                    chrome.storage.sync.set({"paramses": $scope.params})
-                    chrome.tabs.sendMessage(tabs[0].id, { params: $scope.params, buttons: buttons });
-                }
-            }
-        });
-    });
+});
 
-
-    chrome.runtime.onMessage.addListener(function(e){
-        $scope.params.estimated = e.count;
-        if($scope.params.estimated < 0)
-            $scope.params.estimated = 0
-        $scope.$apply()
-    });
-
+app.config(function($routeProvider) {
+    $routeProvider
+    .when("/facebook", {
+        templateUrl : "../assets/facebook.html"
+    })
+    .when("/twitter", {
+        templateUrl : "../assets/twitter.html"
+    })
+    .when("/linkedin", {
+        templateUrl : "../assets/linkedin.html"
+    })
+    .when("/instagram", {
+        templateUrl : "../assets/instagram.html"
+    })
+    .otherwise({
+        templateUrl : "../assets/facebook.html"
+    });;
 });

@@ -4,37 +4,51 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap.min/index.css">
+    <!-- <link rel="stylesheet" type="text/css" href="bower_components/components-font-awesome/css/fontawesome.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="scripts/popup.js"></script>
     <style type="text/css">
     body {
-        width: 300px;
+        width: 360px;
         padding: 15px 0;
+    }
+    .menu{
+        border-right: 1px solid #cccccc;
+        padding-right: 56px;
+    }
+    .menu a{
+        color: black;
+    }
+    .menu a.active{
+        outline: 3px outset #646484;
     }
     </style>
 </head>
 
 <body>
     <div class="container" ng-app="app" ng-controller="app">
-        <h2>{{ title }}</h2>
-        <div class="form-group">
-            <label for="interval">Interval (seconds)</label>
-            <input type="number" class="form-control" ng-model="params.interval" id="interval">
-        </div>
-        <div class="form-group">
-            <label for="pause">Pause after (likes)</label>
-            <input type="number" class="form-control" ng-model="params.pause" id="pause">
-        </div>
-        <div class="form-group">
-            <label for="resume">Resume (seconds)</label>
-            <input type="number" class="form-control" ng-model="params.resume" id="resume">
+        <h2>Social Feed Liker</h2>
+        <div class="row">
+            <div class="col-2 menu">
+                <div class="btn-group-vertical" role="group" aria-label="...">
+                    <a type="button" ng-click="nav = 'facebook'" ng-class="{'active' : nav == 'facebook'}" href="#!facebook" class="btn btn-default"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    <a type="button" ng-click="nav = 'twitter'" ng-class="{'active' : nav == 'twitter'}" href="#!twitter" class="btn btn-default"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    <a type="button" ng-click="nav = 'instagram'" ng-class="{'active' : nav == 'instagram'}" href="#!instagram" class="btn btn-default"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a type="button" ng-click="nav = 'linkedin'" ng-class="{'active' : nav == 'linkedin'}" href="#!linkedin" class="btn btn-default"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                </div>
+            </div>
+            <div class="col-9 main" ng-view>
+                
+            </div>
         </div>
         <!-- <div class="checkbox">
             <label>
                 <input type="checkbox"> Remember me</label>
         </div> -->
-        <div>Estimated {{params.estimated}} likes</div>
-        <button type="submit" class="btn btn-primary" ng-click="start()" ng-disabled="disabled">START</button>
+        <br>
+        <button type="submit" class="btn btn-success" ng-click="save()">SAVE</button>
     </div>
 </body>
+
 </html>

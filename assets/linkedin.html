@@ -1,0 +1,20 @@
+<div class="form-group">
+    <label for="interval">Liking Interval (seconds)</label>
+    <input type="number" class="form-control" ng-model="settings.net.linkedin.interval">
+</div>
+<div class="form-group">
+    <label for="resume">Likes limit per session</label>
+    <input type="number" class="form-control" ng-model="settings.net.linkedin.max">
+</div>
+<div class="form-group">
+    <label for="pause">Session Interval</label>
+    <input type="number" class="form-control" ng-model="settings.net.linkedin.sessionTime">
+</div>
+<div class="row">
+    <div class="col-6">
+        <button type="button" class="btn btn-outline-primary" ng-click="run('linkedin')">Run NOW</button>
+    </div>
+    <div class="col-6 text-right">
+    	<button type="button" ng-click="settings.net.linkedin.enabled = !settings.net.linkedin.enabled" class="btn {{!settings.net.linkedin.enabled?'btn-outline-dark':'btn-success'}}">{{!settings.net.linkedin.enabled?'Disabled':'Enabled'}}</button>
+    </div>
+</div>
